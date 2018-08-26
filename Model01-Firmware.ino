@@ -79,7 +79,8 @@
   */
 
 enum { MACRO_VERSION_INFO,
-       MACRO_ANY
+       MACRO_ANY,
+       MACRO_CTRL_J,
      };
 
 
@@ -213,14 +214,14 @@ KEYMAPS(
    Key_Backtick, Key_Q, Key_W, Key_E, Key_R, Key_T, Key_Tab,
    Key_LeftControl,   Key_A, Key_S, Key_D, Key_F, Key_G,
    Key_LeftShift, Key_Z, Key_X, Key_C, Key_V, Key_B, Key_Escape,
-   Key_LeftControl, Key_Spacebar, Key_LeftShift, Key_LeftAlt,
+   Key_Tab, Key_Spacebar, Key_LeftShift, Key_LeftAlt,
    Key_LeftShift,
 
    M(MACRO_ANY),  Key_6, Key_7, Key_8,     Key_9,         Key_0,         LockLayer(NUMPAD),
    Key_Enter,     Key_Y, Key_U, Key_I,     Key_O,         Key_P,         Key_Equals,
                   Key_H, Key_J, Key_K,     Key_L,         Key_Semicolon, Key_Quote,
    Key_RightAlt,  Key_N, Key_M, Key_Comma, Key_Period,    Key_Slash,     Key_Minus,
-   Key_RightGui, Key_Backspace, Key_Spacebar, Key_Enter,
+   Key_RightGui, Key_Backspace, M(MACRO_CTRL_J), Key_Enter,
    ShiftToLayer(FUNCTION)),
 
 #else
@@ -258,7 +259,7 @@ KEYMAPS(
    Consumer_PlaySlashPause,    Consumer_ScanNextTrack, Key_LeftCurlyBracket,     Key_RightCurlyBracket,    Key_LeftBracket, Key_RightBracket, Key_F12,
                                Key_LeftArrow,          Key_DownArrow,            Key_UpArrow,              Key_RightArrow,  ___,              ___,
    Key_PcApplication,          Consumer_Mute,          Consumer_VolumeDecrement, Consumer_VolumeIncrement, ___,             Key_Backslash,    Key_Pipe,
-   ___, Key_Delete, Key_Enter, ___,
+   ___, Key_Delete, M(MACRO_CTRL_J), ___,
    ___)
 	) // KEYMAPS(
 
@@ -309,14 +310,14 @@ static void anyKeyMacro(uint8_t keyState) {
 
 const macro_t *macroAction(uint8_t macroIndex, uint8_t keyState) {
   switch (macroIndex) {
-
-  case MACRO_VERSION_INFO:
-    versionInfoMacro(keyState);
-    break;
-
-  case MACRO_ANY:
-    anyKeyMacro(keyState);
-    break;
+    case MACRO_VERSION_INFO:
+      versionInfoMacro(keyState);
+      break;
+    case MACRO_ANY:
+      anyKeyMacro(keyState);
+      break;
+    case MACRO_CTRL_J:
+      return MACRODOWN(D(LeftControl), T(J), U(LeftControl));
   }
   return MACRO_NONE;
 }
