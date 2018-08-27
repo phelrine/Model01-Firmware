@@ -81,6 +81,7 @@
 enum { MACRO_VERSION_INFO,
        MACRO_ANY,
        MACRO_CTRL_J,
+       MACRO_CMD_ENTER,
      };
 
 
@@ -214,7 +215,7 @@ KEYMAPS(
    Key_Backtick, Key_Q, Key_W, Key_E, Key_R, Key_T, Key_Tab,
    Key_LeftControl,   Key_A, Key_S, Key_D, Key_F, Key_G,
    Key_LeftShift, Key_Z, Key_X, Key_C, Key_V, Key_B, Key_Escape,
-   Key_Tab, Key_Spacebar, Key_LeftShift, Key_LeftAlt,
+   Key_Tab, Key_Spacebar, Key_LeftControl, Key_LeftAlt,
    Key_LeftShift,
 
    M(MACRO_ANY),  Key_6, Key_7, Key_8,     Key_9,         Key_0,         LockLayer(NUMPAD),
@@ -259,7 +260,7 @@ KEYMAPS(
    Consumer_PlaySlashPause,    Consumer_ScanNextTrack, Key_LeftCurlyBracket,     Key_RightCurlyBracket,    Key_LeftBracket, Key_RightBracket, Key_F12,
                                Key_LeftArrow,          Key_DownArrow,            Key_UpArrow,              Key_RightArrow,  ___,              ___,
    Key_PcApplication,          Consumer_Mute,          Consumer_VolumeDecrement, Consumer_VolumeIncrement, ___,             Key_Backslash,    Key_Pipe,
-   ___, Key_Delete, M(MACRO_CTRL_J), ___,
+   Key_RightGui, Key_Delete, M(MACRO_CTRL_J), M(MACRO_CMD_ENTER),
    ___)
 	) // KEYMAPS(
 
@@ -318,6 +319,8 @@ const macro_t *macroAction(uint8_t macroIndex, uint8_t keyState) {
       break;
     case MACRO_CTRL_J:
       return MACRODOWN(D(LeftControl), T(J), U(LeftControl));
+    case MACRO_CMD_ENTER:
+      return MACRODOWN(D(RightGui), T(Enter), U(RightGui));
   }
   return MACRO_NONE;
 }
